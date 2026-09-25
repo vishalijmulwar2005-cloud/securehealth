@@ -1,0 +1,26 @@
+# dependencies
+frontend/node_modules/
+e2e/node_modules/
+
+# builds
+frontend/.next/
+frontend/out/
+
+# databases (dev/demo state)
+*.db
+*.sqlite3
+
+# runtime artifacts (encrypted synthetic data + results)
+backend/data/
+data/
+
+# test artifacts
+e2e/test-results/
+e2e/playwright-report/
+backend/.pytest_cache/
+**/__pycache__/
+*.pyc
+
+# env / secrets (never commit real secrets)
+.env
+.env.local

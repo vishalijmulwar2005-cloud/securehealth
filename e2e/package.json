@@ -1,0 +1,12 @@
+{
+  "name": "securehealth-e2e",
+  "version": "4.1.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.47.0",
+    "typescript": "5.5.4"
+  }
+}
