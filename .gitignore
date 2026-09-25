@@ -24,3 +24,4 @@ backend/.pytest_cache/
 # env / secrets (never commit real secrets)
 .env
 .env.local
+frontend/tsconfig.tsbuildinfo

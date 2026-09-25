@@ -11,12 +11,12 @@ import datetime
 import json
 import os
 import threading
-
 from datetime import timedelta
 
 from sqlalchemy import select
 
 from ..core.config import settings
+from ..db.session import SessionLocal
 from ..models.models import AiAnalyses, Notifications, Permissions, ResearchConsents
 from .ai_engine import analyze_report, result_json_bytes
 from .audit import utcnow

@@ -1,0 +1,41 @@
+# Render Blueprint — SecureHealth (college demo deployment)
+# Deploy: Render dashboard -> New + -> Blueprint -> select this repo -> Apply.
+#
+# NOTE (demo): the API runs in development mode with SQLite on an ephemeral
+# disk, so data resets on redeploys. The production path (Render Postgres +
+# SECUREHEALTH_ENV=production + alembic migrations) is documented in README.
+services:
+  - type: web
+    name: securehealth-api
+    env: python
+    plan: free
+    rootDir: backend
+    buildCommand: "pip install -r requirements.txt && alembic upgrade head"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: SECUREHEALTH_ENV
+        value: development
+      - key: SECUREHEALTH_DATABASE_URL
+        value: sqlite:////tmp/securehealth.db
+      - key: SECUREHEALTH_JWT_SECRET
+        generateValue: true
+      - key: SECUREHEALTH_PSEUDO_SECRET
+        generateValue: true
+      - key: SECUREHEALTH_STORAGE_ROOT
+        value: /tmp/protected_storage
+      - key: SECUREHEALTH_QUARANTINE_ROOT
+        value: /tmp/quarantine
+      - key: SECUREHEALTH_CORS_ORIGINS
+        value: https://securehealth-web.onrender.com
+
+  - type: web
+    name: securehealth-web
+    env: node
+    plan: free
+    rootDir: frontend
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm start"
+    envVars:
+      - key: NEXT_PUBLIC_API_BASE
+        value: https://securehealth-api.onrender.com/api/v1
